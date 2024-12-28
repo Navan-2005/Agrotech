@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      body {
+        font-family: "Exo", sans-serif;
+      }
+
+      .context {
+        width: 100%;
+        position: absolute;
+        top: 50vh;
+      }
+
+      .context h1 {
+        text-align: center;
+        color: #fff;
+        font-size: 50px;
+      }
+
+      .area {
+        background: #2ecc71;
+        background: -webkit-linear-gradient(to left, #2ecc71, #2ecc71);
+        width: 100%;
+        height: 100vh;
+      }
+
+      .circles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .circles li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate 25s linear infinite;
+        bottom: -150px;
+      }
+
+      .circles li:nth-child(1) {
+        left: 25%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+
+      .circles li:nth-child(2) {
+        left: 10%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 2s;
+        animation-duration: 12s;
+      }
+
+      .circles li:nth-child(3) {
+        left: 70%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 4s;
+      }
+
+      .circles li:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 0s;
+        animation-duration: 18s;
+      }
+
+      .circles li:nth-child(5) {
+        left: 65%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 0s;
+      }
+
+      .circles li:nth-child(6) {
+        left: 75%;
+        width: 110px;
+        height: 110px;
+        animation-delay: 3s;
+      }
+
+      .circles li:nth-child(7) {
+        left: 35%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 7s;
+      }
+
+      .circles li:nth-child(8) {
+        left: 50%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 15s;
+        animation-duration: 45s;
+      }
+
+      .circles li:nth-child(9) {
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        animation-delay: 2s;
+        animation-duration: 35s;
+      }
+
+      .circles li:nth-child(10) {
+        left: 85%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 0s;
+        animation-duration: 11s;
+      }
+
+      @keyframes animate {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+          border-radius: 0;
+        }
+
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+          border-radius: 50%;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("rdIvxn2zF1ruRcWbM");
+      })();
+    </script>
+    <script src="index1.js"></script>
+    <style>
+      /* Page fade-in animation */
+      body {
+        animation: fadeIn 1.5s ease-in;
+      }
+
+      /* Fade-in effect */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Container styling */
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 80px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0px 4px 10px rgba(87, 228, 136, 0.15);
+        background-color: green;
+      }
+
+      /* Left section styling */
+      .bg-primary {
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px 0 0 10px;
+        transition: transform 0.3s ease;
+      }
+
+      /* Right section form styling */
+      .col-md-6 {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 0 10px 10px 0;
+      }
+
+      /* Animations for "Hi there" and "Lorem ipsum..." text */
+      .intro-heading,
+      .intro-text {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 1s ease forwards;
+      }
+
+      /* Staggered delay for text animations */
+      .intro-heading {
+        animation-delay: 0.3s;
+      }
+      .intro-text {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Button styling */
+      .btn-primary {
+        background-color: #2ecc71;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+      .intro-text {
+        text-align: start;
+      }
+
+      .btn-primary:hover {
+        background-color: #2ecc71;
+        transform: translateY(-3px);
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Form field focus effects */
+      .form-control:focus {
+        border-color: #2ecc71;
+        box-shadow: 0px 0px 5px rgba(0, 255, 21, 0.5);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .row {
+        padding-top: 50px;
+      }
+    </style>
+    <style>
+      /* Bounce and fade-in effect for the heading */
+      @keyframes fadeInBounce {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .intro-heading {
+        animation: fadeInBounce 2s ease-out forwards;
+        font-size: 48px;
+        font-weight: bold;
+      }
+
+      /* Smooth fade-in for the intro text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .intro-text {
+        animation: fadeIn 3s ease-in forwards;
+        font-size: 30px;
+        margin-top: 10px;
+      }
+    </style>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .section {
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
+    =
+  </head>
+
+  <body style="height: 100vh">
+    <div class="container border mt-3 bg-light">
+      <div class="row" style="padding-top: 0">
+        <div class="col-md-6 p-5 bg-primary text-white">
+          <h1 class="intro-heading" style="text-align: start">Hi there,</h1>
+          <br /><br />
+
+          <h4 class="intro-text" style="font-size: 30px">
+            Just share your name, contact info, and a brief message, and we’ll
+            get back to you soon!
+          </h4>
+        </div>
+        <div class="col-md-6 py-3" style="text-align: start">
+          <h1>Contact Form</h1>
+          <div class="form-group">
+            <h5 for="name">Name</h5>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div class="form-group">
+            <h5 for="email">Email(optional)</h5>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="Enter your email "
+            />
+          </div>
+          <div class="form-group">
+            <h5 for="phone no">Phone No (+91)</h5>
+            <input
+              type="phone no"
+              class="form-control"
+              id="phone no"
+              placeholder="Enter your Phone no"
+            />
+          </div>
+          <div class="form-group">
+            <h5 for="message">Message</h5>
+            <textarea
+              name="message"
+              id="message"
+              rows="3"
+              class="form-control"
+              placeholder="Enter your message"
+            ></textarea>
+          </div>
+          <button
+            id="submit"
+            class="btn btn-primary"
+            onclick="sendMail()"
+            href="home.ejs"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      function sendMail() {
+        var params = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value,
+          mobile: document.getElementById("phone no").value,
+        };
+
+        const serviceID = "service_w07t6vr";
+        const templateID = "template_leu4j5t";
+
+        emailjs
+          .send(serviceID, templateID, params)
+          .then((res) => {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("message").value = "";
+            document.getElementById("phone no").value = "";
+            console.log(res);
+            alert("Your message was sent successfully!");
+          })
+          .catch((err) => console.log("Error:", err));
+        window.location.href = "http://localhost:8080";
+      }
+      document.getElementById("button").addEventListener("click", function () {
+        window.location.href = "http://localhost:8080";
+      });
+    </script>
+    <script src="script.js"></script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+  </body>
+</html>

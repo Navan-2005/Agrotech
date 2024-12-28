@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FarmSense - Smart Farming Revolution</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2ecc71;
+        --primary-dark: #27ae60;
+        --secondary: #34495e;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .logo i {
+        color: var(--primary);
+        font-size: 2rem;
+      }
+
+      .logo h1 {
+        color: var(--dark);
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+
+      .navbar {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .navbar a {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 500;
+        position: relative;
+        padding: 5px 0;
+      }
+
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      .navbar a:hover::after {
+        width: 100%;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .logo i {
+        color: var(--primary);
+        font-size: 2rem;
+      }
+
+      .logo h1 {
+        color: var(--dark);
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+
+      .hero-section {
+        padding: 8rem 2rem 4rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .hero-content {
+        animation: fadeInLeft 1s ease;
+      }
+
+      .hero-content h2 {
+        font-size: 3rem;
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+      }
+
+      .hero-content p {
+        font-size: 1.1rem;
+        color: var(--secondary);
+        margin-bottom: 2rem;
+      }
+
+      .hero-image {
+        animation: fadeInRight 1s ease;
+        position: relative;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .signup-box {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 1s ease;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        color: var(--secondary);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      .input-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #95a5a6;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        border: 2px solid var(--light);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+      }
+
+      .signup-button {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .signup-button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+      }
+
+      .features {
+        background: white;
+        padding: 4rem 2rem;
+        margin-top: 4rem;
+      }
+
+      .features-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature-card {
+        padding: 2rem;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .feature-card i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+      }
+
+      .feature-card p {
+        color: var(--secondary);
+      }
+
+      .footer {
+        background: var(--dark);
+        color: white;
+        padding: 3rem 2rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .footer-section h3 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+      }
+
+      .footer-section p {
+        color: var(--light);
+        margin-bottom: 1rem;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--primary);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-links a {
+        color: var(--light);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 2rem;
+        color: var(--light);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 2rem;
+      }
+
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 992px) {
+        .hero-section {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 2rem;
+        }
+
+        .hero-content {
+          order: 1;
+        }
+
+        .hero-image {
+          order: 2;
+        }
+
+        .features-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 1rem;
+        }
+
+        .hero-content h2 {
+          font-size: 2.5rem;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .social-links {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div id="google_translate_element"></div>
+      <div class="header-content">
+        <a href="#" class="logo">
+          <i class="fas fa-leaf"></i>
+          <h1>FarmSense</h1>
+        </a>
+        <nav class="navbar">
+          <a id="signup-nav" href="#">SignUp</a>
+          <a href="/login">Login</a>
+          <a id="about" href="#">About</a>
+          <!-- <a href="#">Services</a> -->
+          <!-- <a href="#">LearnSoil</a> -->
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero-section">
+      <div id="hero-content" class="hero-content">
+        <h2>Transform Your Farming with Smart Technology</h2>
+        <p>
+          Join thousands of farmers who are revolutionizing their agricultural
+          practices with FarmSense's innovative solutions. Get personalized crop
+          recommendations, real-time weather insights, and market analytics all
+          in one place.
+        </p>
+
+        <div id="signup-block" class="signup-box">
+          <form action="/signup" method="post">
+            <div class="form-group">
+              <label for="name">Username</label>
+              <input
+                type="text"
+                id="name"
+                name="username"
+                placeholder="Username"
+                required
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+            </div>
+
+            <button type="submit" class="signup-button">
+              <a href="login"></a>
+              <i class="fas fa-user-plus"></i>
+              Get Started Now
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img
+          src="https://www.agrotech-india.com/images/img/about_us/about.png"
+          alt="Hero Image"
+        />
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="features-container">
+        <div class="feature-card">
+          <i class="fas fa-robot"></i>
+          <h3>AI-Powered Insights</h3>
+          <p>
+            Our advanced artificial intelligence analyzes soil conditions,
+            weather patterns, and historical data to provide you with the most
+            accurate farming recommendations.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-chart-bar"></i>
+          <h3>Personalized Crop Recommendations</h3>
+          <p>
+            Stay ahead of market trends with real-time price analytics, demand
+            forecasting, and direct connections to buyers in your region.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h3>Farmer Friend Bot</h3>
+          <p>Your One-Stop Solution for All Farming Queries and Doubts</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About FarmSense</h3>
+          <p>
+            Empowering farmers with advanced technology and data-driven insights
+            for sustainable agriculture and improved crop yields.
+          </p>
+          <div class="social-links">
+            <!-- <a href="#"><i class="fab fa-facebook"></i></a> -->
+            <!-- <a href="#"><i class="fab fa-twitter"></i></a> -->
+            <!-- <a href="#"><i class="fab fa-linkedin"></i></a> -->
+            <a
+              href="https://www.instagram.com/farm.sense/profilecard/?igsh=aTNjaXdud2JpMmVy"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+
+        <div id="footer" class="footer-section">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <!-- <li><a href="#">Services</a></li> -->
+            <li><a href="/contact">Contact</a></li>
+            <!-- <li><a href="#">Privacy Policy</a></li> -->
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-phone"></i> +9380368128</li>
+            <li><i class="fas fa-envelope"></i> info@FarmSense.com</li>
+            <li><i class="fas fa-map-marker-alt"></i> Mysuru,India</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2024 FarmSense</p>
+      </div>
+    </footer>
+    <script>
+      document.getElementById("signup-nav").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const scrolldown = document.getElementById("hero-content");
+        scrolldown.scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+      document.getElementById("about").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const scrolldown = document.getElementById("footer");
+        scrolldown.scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+    </script>
+    <script src="script.js"></script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+  </body>
+</html>

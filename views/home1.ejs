@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Crop Details Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #62bc6d;
+            --primary-dark: #27ae60;
+            --primary-light: #a8e6cf;
+            --secondary: #34495e;
+            --light: #f7f9fc;
+            --dark: #2c3e50;
+            --success: #28a745;
+            --warning: #ffd700;
+            --danger: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--light) 0%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .header h1 {
+            color: var(--primary-dark);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .crop-image-section {
+            flex: 1;
+            background: linear-gradient(145deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .crop-title {
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .crop-title h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .crop-badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+        }
+
+        .info-section {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-light) 0%, var(--primary) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .info-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card h3 i {
+            font-size: 1.2rem;
+        }
+
+        .info-card p {
+            color: var(--secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .search-bar-container {
+            position: fixed;
+            bottom: 30px;
+            width: 90%;
+            max-width: 600px;
+            background: white;
+            border-radius: 30px;
+            padding: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            gap: 15px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            color: var(--dark);
+            padding: 5px;
+        }
+
+        .search-bar i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .search-bar i:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-light);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .crop-title h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: -300px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transition: right 0.3s ease;
+        }
+
+        .notification.show {
+            right: 20px;
+        }
+
+        .notification i {
+            color: var(--success);
+        }
+
+        .floating-btn {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(34, 139, 34, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+            z-index: 1000;
+        }
+
+        .floating-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(34, 139, 34, 0.4);
+        }
+
+        .floating-btn:hover::before {
+            opacity: 1;
+        }
+
+        .floating-btn:active {
+            transform: translateY(2px) scale(0.95);
+            box-shadow: 0 2px 10px rgba(34, 139, 34, 0.3);
+        }
+
+        .floating-btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: ripple 2s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .floating-btn {
+                width: 80px;
+                height: 80px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Adding pulse effect on hover */
+        .pulse-hover {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(98, 188, 109, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(98, 188, 109, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 188, 109, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="google_translate_element"></div> 
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Data updated successfully!</span>
+    </div>
+
+    <div class="header">
+        <h1>Smart Crop Guide</h1>
+        <p>Discover detailed information about various crops and their cultivation requirements</p>
+    </div>
+
+    <div class="container">
+        <div class="crop-image-section">
+            <div class="image-container">
+                <img id="cropImage" src="https://via.placeholder.com/400" alt="Crop Image">
+            </div>
+            <div class="crop-title">
+                <h2 id="cropName">Tomato</h2>
+                <div class="crop-badges">
+                    <span class="badge">Vegetable</span>
+                    <span class="badge">Summer Crop</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-card" id="soil">
+                <h3><i class="fas fa-seedling"></i>Soil Requirements</h3>
+                <p>Rich, well-draining soil with pH 6.0-6.8</p>
+                <div class="progress-bar"></div>
+            </div>
+            <div class="info-card" id="water">
+                <h3><i class="fas fa-tint"></i>Watering Guidelines</h3>
+                <p>Regular watering, keeping soil consistently moist</p>
+                <div class="progress-bar"></div>
+            </div>
+            <div class="info-card" id="climate">
+                <h3><i class="fas fa-sun"></i>Climate Conditions</h3>
+                <p>Warm weather, full sun exposure</p>
+                <div class="progress-bar"></div>
+            </div>
+            <div class="info-card" id="harvest">
+                <h3><i class="fas fa-clock"></i>Harvest Time</h3>
+                <p>60-80 days after planting</p>
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-bar-container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search for crops...">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+    <div>
+    <a href="Chatbot.html">
+        <button class="floating-btn" id="moreBtn" onclick="handleClick()">More</button>
+      </a>
+    </div>
+      
+    <script>
+  
+const cropsDatabase = {
+    tomato: {
+        name: "Tomato",
+        type: "Vegetable",
+        season: "Summer Crop",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg",
+        soil: "Rich, well-draining soil with pH 6.0-6.8. Add organic matter for best results.",
+        water: "Regular watering, keeping soil consistently moist but not waterlogged. Water deeply 1-2 times per week.",
+        climate: "Warm weather, full sun exposure (6-8 hours daily). Optimal temperature 65-85°F (18-29°C).",
+        harvest: "60-80 days after planting. Harvest when fruits are firm and fully colored."
+    },
+    cucumber: {
+        name: "Cucumber",
+        type: "Vegetable",
+        season: "Summer Crop",
+        imageUrl: "https://thumbs.dreamstime.com/b/cucumber-plant-young-fruits-fragment-cucumber-plant-young-fruits-101915165.jpg",
+        soil: "Well-draining, fertile soil with pH 6.0-7.0. Rich in organic matter.",
+        water: "Consistent moisture, about 1-2 inches of water per week. Avoid overhead watering.",
+        climate: "Warm temperatures between 70-85°F (21-29°C). Full sun required.",
+        harvest: "50-70 days from planting. Harvest when cucumbers are firm and green."
+    },
+    carrot: {
+        name: "Carrot",
+        type: "Root Vegetable",
+        season: "Cool Season Crop",
+        imageUrl: "https://hips.hearstapps.com/hmg-prod/images/981/articles/2017/08/carrotgrowingguide-1000-1504182935.jpg",
+        soil: "Deep, loose, well-draining soil. Sandy loam ideal. pH 6.0-6.8.",
+        water: "Regular, consistent moisture. Keep soil damp but not waterlogged.",
+        climate: "Cool weather crop, optimal temperature 60-70°F (15-21°C).",
+        harvest: "70-80 days. Pull when roots reach desired size."
+    },
+
+    rice: {
+        name: "Rice",
+        type: "Cereal",
+        season: "Kharif Crop",
+        imageUrl: "https://media.istockphoto.com/id/622925154/photo/ripe-rice-in-the-field-of-farmland.jpg?s=612x612&w=0&k=20&c=grtA7L3dm_SP80Fdt-PpIwu5GYacZygErTDUDNIKHwY=",
+        soil: "Clayey or loamy soil with good water retention and pH 5.0-6.5.",
+        water: "Requires standing water during most of its growth. Keep fields flooded until maturity.",
+        climate: "Warm and humid climate with temperatures 68-95°F (20-35°C).",
+        harvest: "90-120 days after sowing, when grains turn golden and hard."
+    },
+    pigeonpeas: {
+        name: "Pigeonpeas",
+        type: "Legume",
+        season: "Kharif Crop",
+        imageUrl: "https://m.media-amazon.com/images/I/71R5Bfv0npL.AC_UF1000,1000_QL80.jpg",
+        soil: "Well-drained loamy or clayey soil with pH 6.5-7.5.",
+        water: "Moderate watering during early growth. Avoid waterlogging.",
+        climate: "Tropical climate with temperatures 64-95°F (18-35°C).",
+        harvest: "120-180 days after sowing, when pods dry and turn brown."
+    },
+
+    papaya: {
+        name: "Papaya",
+        type: "Fruit",
+        season: "Perennial Crop",
+        imageUrl: "https://m.media-amazon.com/images/I/71R5Bfv0npL.AC_UF1000,1000_QL80.jpg",
+        soil: "Loamy, well-draining soil with pH 6.0-6.5. Avoid waterlogged areas.",
+        water: "Regular watering, especially during dry spells. Avoid overwatering.",
+        climate: "Warm climate with temperatures 70-90°F (21-32°C).",
+        harvest: "6-9 months after planting, when fruits turn yellow-green."
+    },
+    coconut: {
+        name: "Coconut",
+        type: "Fruit",
+        season: "Perennial Crop",
+        imageUrl: "https://cdn.pixabay.com/photo/2016/03/26/22/48/tree-1281680_1280.jpg",
+        soil: "Well-draining sandy or loamy soil with pH 5.2-8.0.",
+        water: "Requires frequent watering during establishment, then moderate.",
+        climate: "Tropical climate with temperatures 72-93°F (22-34°C).",
+        harvest: "6-8 months after flowering for mature coconuts."
+    },
+    jute: {
+        name: "Jute",
+        type: "Fibre Crop",
+        season: "Kharif Crop",
+        imageUrl: "https://media.istockphoto.com/id/1185911458/photo/jute-plant-stems-laid-for-drying-in-the-sun.jpg?s=612x612&w=0&k=20&c=wKrT30GXG12xC0cJbxrOIr5HvjmzRvcTUtYCfi_lgNI=",
+        soil: "Alluvial soil with good drainage and pH 6.4-7.2.",
+        water: "Regular watering; ensure adequate moisture during growth.",
+        climate: "Warm and humid climate with temperatures 77-95°F (25-35°C).",
+        harvest: "100-120 days after sowing, when plants are in the flowering stage."
+    },
+    coffee: {
+        name: "Coffee",
+        type: "Beverage Crop",
+        season: "Perennial Crop",
+        imageUrl: "https://img.freepik.com/free-photo/closeup-shot-holly-branch-with-leaves_181624-3153.jpg?t=st=1731676445~exp=1731680045~hmac=23ef469ef66b9bf7f6eb2e9a2bb2c61d5384351082dbb38f31042c4c8dacc4ed&w=740",
+        soil: "Well-draining, rich loamy soil with pH 6.0-6.5.",
+        water: "Moderate watering; avoid waterlogging.",
+        climate: "Cool and tropical climate with temperatures 59-77°F (15-25°C).",
+        harvest: "6-8 months after flowering, when cherries turn red."
+    },
+
+    maize: {
+        name: "Maize",
+        type: "Cereal",
+        season: "Kharif and Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Loamy or sandy soil with pH 5.5-7.0.",
+        water: "Regular watering during growth; avoid waterlogging.",
+        climate: "Warm climate with temperatures 68-77°F (20-25°C).",
+        harvest: "90-120 days after planting, when cobs are mature."
+    },
+    chickpea: {
+        name: "Chickpea",
+        type: "Legume",
+        season: "Rabi Crop",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRGcly7XtSaYooFlgXZB1V3R-vPp_vVPIC7g&s",
+        soil: "Well-drained loamy or sandy soil with pH 6.0-7.5.",
+        water: "Minimal watering; avoid overwatering.",
+        climate: "Cool and dry climate with temperatures 59-75°F (15-24°C).",
+        harvest: "100-110 days after planting, when pods mature."
+    },
+    kidneybeans: {
+        name: "Kidney Beans",
+        type: "Legume",
+        season: "Kharif Crop",
+        imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRGcly7XtSaYooFlgXZB1V3R-vPp_vVPIC7g&s",
+        soil: "Well-drained loamy soil with pH 6.0-7.0.",
+        water: "Moderate watering during growth.",
+        climate: "Warm climate with temperatures 60-70°F (16-21°C).",
+        harvest: "90-120 days after sowing, when pods mature."
+    },
+    mothbeans: {
+        name: "Moth Beans",
+        type: "Legume",
+        season: "Kharif Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-drained sandy or loamy soil with pH 7.0-8.5.",
+        water: "Minimal watering; drought-tolerant.",
+        climate: "Hot and dry climate with temperatures 77-86°F (25-30°C).",
+        harvest: "70-90 days after planting, when pods dry."
+    },
+    mungbean: {
+        name: "Mung Bean",
+        type: "Legume",
+        season: "Kharif and Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Loamy soil with pH 6.2-7.2.",
+        water: "Moderate watering during growth.",
+        climate: "Warm and humid climate with temperatures 77-86°F (25-30°C).",
+        harvest: "60-70 days after planting, when pods dry."
+    },
+
+    
+    blackgram: {
+        name: "Black Gram",
+        type: "Legume",
+        season: "Kharif and Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining sandy loam soil with pH 6.5-7.5.",
+        water: "Regular watering during growth.",
+        climate: "Warm and humid climate with temperatures 75-86°F (24-30°C).",
+        harvest: "80-90 days after planting, when pods dry."
+    },
+    lentil: {
+        name: "Lentil",
+        type: "Legume",
+        season: "Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining sandy or loamy soil with pH 6.0-7.5.",
+        water: "Minimal watering during growth.",
+        climate: "Cool and dry climate with temperatures 60-75°F (16-24°C).",
+        harvest: "100-110 days after planting, when pods mature."
+    },
+
+    mungbean: {
+    name: "Mung Bean",
+    type: "Legume",
+    season: "Kharif and Rabi Crop",
+    imageUrl: "https://via.placeholder.com/400",
+    soil: "Loamy soil with pH 6.2-7.2.",
+    water: "Moderate watering during growth.",
+    climate: "Warm and humid climate with temperatures 77-86°F (25-30°C).",
+    harvest: "60-70 days after planting, when pods dry."
+},
+
+
+    pomegranate: {
+        name: "Pomegranate",
+        type: "Fruit",
+        season: "Perennial Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Loamy soil with pH 5.5-7.5 and good drainage.",
+        water: "Regular watering during dry periods; avoid waterlogging.",
+        climate: "Dry and warm climate with temperatures 68-86°F (20-30°C).",
+        harvest: "5-7 months after flowering, when fruits are deep red."
+    },
+    mango: {
+        name: "Mango",
+        type: "Fruit",
+        season: "Summer Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-drained alluvial or loamy soil with pH 5.5-7.5.",
+        water: "Moderate watering during flowering and fruit development.",
+        climate: "Tropical climate with temperatures 77-86°F (25-30°C).",
+        harvest: "100-150 days after flowering, when fruits are ripe."
+    },
+    orange: {
+        name: "Orange",
+        type: "Fruit",
+        season: "Winter Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining sandy or loamy soil with pH 6.0-7.5.",
+        water: "Regular watering during dry spells; avoid overwatering.",
+        climate: "Subtropical climate with temperatures 60-85°F (16-29°C).",
+        harvest: "6-8 months after flowering, when fruits turn orange."
+    },
+    grapes: {
+        name: "Grapes",
+        type: "Fruit",
+        season: "Perennial Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining sandy or loamy soil with pH 5.5-7.0.",
+        water: "Moderate watering during growth; reduce before harvest.",
+        climate: "Warm and dry climate with temperatures 77-85°F (25-29°C).",
+        harvest: "150-180 days after flowering, when clusters ripen."
+    },
+    apple: {
+        name: "Apple",
+        type: "Fruit",
+        season: "Temperate Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining loamy soil with pH 5.5-6.5.",
+        water: "Regular watering during dry periods; avoid waterlogging.",
+        climate: "Cool temperate climate with temperatures 32-60°F (0-15°C).",
+        harvest: "150-180 days after flowering, when fruits are firm and red."
+    },
+    banana: {
+        name: "Banana",
+        type: "Fruit",
+        season: "Perennial Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Rich, well-draining loamy soil with pH 6.0-7.5.",
+        water: "Frequent watering; keep soil consistently moist but not waterlogged.",
+        climate: "Tropical climate with temperatures 77-95°F (25-35°C).",
+        harvest: "9-12 months after planting, when bunches mature."
+    },
+    watermelon: {
+        name: "Watermelon",
+        type: "Fruit",
+        season: "Summer Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Sandy loam soil with good drainage and pH 6.0-6.8.",
+        water: "Regular watering during growth; reduce before harvest.",
+        climate: "Warm climate with temperatures 70-90°F (21-32°C).",
+        harvest: "70-90 days after planting, when fruits sound hollow when tapped."
+    },
+    muskmelon: {
+        name: "Muskmelon",
+        type: "Fruit",
+        season: "Summer Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining sandy loam soil with pH 6.0-7.5.",
+        water: "Regular watering during growth; reduce before harvest.",
+        climate: "Warm climate with temperatures 75-95°F (24-35°C).",
+        harvest: "80-100 days after planting, when fruits detach easily from the vine."
+    },
+    cotton: {
+        name: "Cotton",
+        type: "Fibre Crop",
+        season: "Kharif Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Black soil or alluvial soil with pH 6.0-8.0.",
+        water: "Requires moderate watering; avoid waterlogging.",
+        climate: "Warm and dry climate with temperatures 77-95°F (25-35°C).",
+        harvest: "150-180 days after sowing, when bolls burst open."
+    },
+
+
+    coffee: {
+        name: "Coffee",
+        type: "Beverage Crop",
+        season: "Perennial Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Rich, well-draining loamy soil with pH 6.0-6.5 and high organic matter.",
+        water: "Requires consistent moisture; avoid waterlogging.",
+        climate: "Cool tropical climate with temperatures 60-75°F (15-24°C).",
+        harvest: "3-4 years after planting; berries are picked when red and ripe."
+    },
+    pigeonpeas: {
+        name: "Pigeonpeas",
+        type: "Pulse Crop",
+        season: "Kharif Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining loamy or sandy soil with pH 5.5-7.0.",
+        water: "Moderate watering during flowering; drought-tolerant after establishment.",
+        climate: "Warm climate with temperatures 68-95°F (20-35°C).",
+        harvest: "150-180 days after sowing, when pods turn brown."
+    },
+    mungbean: {
+        name: "Mungbean",
+        type: "Pulse Crop",
+        season: "Kharif and Summer Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining sandy or loamy soil with pH 6.5-7.5.",
+        water: "Moderate watering; avoid waterlogging during growth.",
+        climate: "Warm and humid climate with temperatures 68-86°F (20-30°C).",
+        harvest: "60-70 days after planting, when pods are mature and dry."
+    },
+    blackgram: {
+        name: "Blackgram",
+        type: "Pulse Crop",
+        season: "Kharif Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Fertile loamy soil with pH 6.5-7.5.",
+        water: "Regular watering during early growth; drought-tolerant later.",
+        climate: "Warm climate with temperatures 70-85°F (21-29°C).",
+        harvest: "70-90 days after planting, when pods are mature and black."
+    },
+    lentil: {
+        name: "Lentil",
+        type: "Pulse Crop",
+        season: "Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining loamy soil with pH 6.0-6.5.",
+        water: "Low water requirements; avoid excessive watering.",
+        climate: "Cool climate with temperatures 60-75°F (15-24°C).",
+        harvest: "100-110 days after planting, when pods are dry and seeds are hard."
+    },
+    mothbeans: {
+        name: "Mothbeans",
+        type: "Pulse Crop",
+        season: "Kharif Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Sandy or loamy soil with pH 6.0-7.5.",
+        water: "Low water requirements; drought-tolerant.",
+        climate: "Hot and dry climate with temperatures 70-90°F (21-32°C).",
+        harvest: "60-75 days after sowing, when pods are dry and mature."
+    },
+    kidneybeans: {
+        name: "Kidneybeans",
+        type: "Pulse Crop",
+        season: "Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining loamy soil with pH 6.0-7.5.",
+        water: "Regular watering; avoid waterlogging.",
+        climate: "Moderate climate with temperatures 65-75°F (18-24°C).",
+        harvest: "90-120 days after planting, when pods are dry and mature."
+    },
+    chickpea: {
+        name: "Chickpea",
+        type: "Pulse Crop",
+        season: "Rabi Crop",
+        imageUrl: "https://via.placeholder.com/400",
+        soil: "Well-draining loamy or sandy soil with pH 6.0-8.0.",
+        water: "Low water requirement; drought-tolerant.",
+        climate: "Cool and dry climate with temperatures 60-70°F (15-21°C).",
+        harvest: "90-120 days after sowing, when pods are dry and seeds hard."
+    },
+};
+
+// Function to update display with crop data
+function updateCropDisplay(cropData) {
+    // Update image and name
+    document.getElementById('cropImage').src = cropData.imageUrl;
+    document.getElementById('cropName').textContent = cropData.name;
+
+    // Update badges
+    const badges = document.querySelector('.crop-badges');
+    badges.innerHTML = `
+        <span class="badge">${cropData.type}</span>
+        <span class="badge">${cropData.season}</span>
+    `;
+
+    // Update info cards
+    document.querySelector('#soil p').textContent = cropData.soil;
+    document.querySelector('#water p').textContent = cropData.water;
+    document.querySelector('#climate p').textContent = cropData.climate;
+    document.querySelector('#harvest p').textContent = cropData.harvest;
+
+    // Show notification
+    showNotification(`${cropData.name} information loaded successfully!`);
+}
+
+// Enhanced notification function
+function showNotification(message) {
+    const notification = document.querySelector('.notification');
+    const notificationText = notification.querySelector('span');
+    notificationText.textContent = message;
+    notification.classList.add('show');
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+</script>
+<script >
+// Search functionality
+function setupSearch() {
+    const searchInput = document.querySelector('.search-bar input');
+    const searchIcon = document.querySelector('.search-bar i');
+
+    function handleSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const matchedCrop = Object.values(cropsDatabase).find(crop => 
+            crop.name.toLowerCase().includes(searchTerm) ||
+            crop.type.toLowerCase().includes(searchTerm) ||
+            crop.season.toLowerCase().includes(searchTerm)
+        );
+
+        if (matchedCrop) {
+            updateCropDisplay(matchedCrop);
+            searchInput.value = '';
+        } else {
+            showNotification('Crop not found. Try another search.');
+        }
+    }
+
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    });
+
+    searchIcon.addEventListener('click', handleSearch);
+}
+
+// Image hover effects
+function setupImageEffects() {
+    const cropImage = document.querySelector('#cropImage');
+    
+    cropImage.addEventListener('mousemove', (e) => {
+        const { left, top, width, height } = e.target.getBoundingClientRect();
+        const x = (e.clientX - left) / width;
+        const y = (e.clientY - top) / height;
+        
+        gsap.to(cropImage, {
+            duration: 0.5,
+            transform: `scale(1.05) translate(${(x - 0.5) * 10}px, ${(y - 0.5) * 10}px)`,
+            ease: 'power2.out'
+        });
+    });
+
+    cropImage.addEventListener('mouseleave', () => {
+        gsap.to(cropImage, {
+            duration: 0.5,
+            transform: 'scale(1) translate(0, 0)',
+            ease: 'power2.out'
+        });
+    });
+}
+
+// Card hover effects
+function setupCardEffects() {
+    document.querySelectorAll('.info-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card.querySelector('.progress-bar'), {
+                width: '100%',
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        });
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card.querySelector('.progress-bar'), {
+                width: '0%',
+                duration: 0.5,
+                ease: 'power2.out'
+            });
+        });
+    });
+}
+
+// Initial page load animations
+function initPageAnimations() {
+    // Remove loading overlay
+    setTimeout(() => {
+        gsap.to('.loading-overlay', {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+                document.querySelector('.loading-overlay').style.display = 'none';
+            }
+        });
+
+        // Animate content
+        gsap.timeline()
+            .to('.header', {
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.out'
+            })
+            .to('.container', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power2.out'
+            }, '-=0.5')
+            .to('.search-bar-container', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power2.out'
+            }, '-=0.5');
+    }, 1500);
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize with default crop (Tomato)
+    updateCropDisplay(cropsDatabase.tomato);
+    
+    // Setup all interactive features
+    setupSearch();
+    setupImageEffects();
+    setupCardEffects();
+    initPageAnimations();
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '/' || (e.key === 'k' && (e.metaKey || e.ctrlKey))) {
+            e.preventDefault();
+            document.querySelector('.search-bar input').focus();
+        }
+    });
+});
+
+// Error handling for images
+document.querySelector('#cropImage').addEventListener('error', function() {
+    this.src = 'https://via.placeholder.com/400?text=Crop+Image+Not+Found';
+});
+
+</script>
+<script src="script.js"></script>
+      <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                {pageLanguage: 'en'},
+                'google_translate_element'
+            );
+        } 
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script>
+    const btn = document.getElementById('moreBtn');
+    
+    // Add pulse effect on hover
+    btn.addEventListener('mouseenter', () => {
+        btn.classList.add('pulse-hover');
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+        btn.classList.remove('pulse-hover');
+    });
+
+    function handleClick() {
+        // Add your click handler here
+        console.log('More button clicked');
+    }
+</script>
